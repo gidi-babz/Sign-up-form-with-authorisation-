@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AuthContext from '../../store/auth-context';
 import classes from './AuthForm.module.css';
@@ -8,6 +9,8 @@ const AuthForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const authCtx = useContext(AuthContext);
+
+  const history = useHistory();
 
   const { login } = authCtx;
 
@@ -59,7 +62,11 @@ const AuthForm = () => {
         }
       })
       .then(data => {
-        login(data.idToken);
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+        login(data.idToken, expirationTime.toISOString());
+        history.replace('/');
       })
       .catch(error => {
         alert(error.message);
