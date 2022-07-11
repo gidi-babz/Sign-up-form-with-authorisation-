@@ -65,9 +65,9 @@ const AuthForm = () => {
         alert(error.message);
       });
 
-    const clearEmailInput = (emailInputRef.current.value = '');
+    emailInputRef.current.value = '';
 
-    const clearPasswordInput = (passwordInputRef.current.value = '');
+    passwordInputRef.current.value = '';
   };
 
   return (
